@@ -2,53 +2,61 @@ import numpy as np
 import pickle
 import streamlit as st
 
-# Loading the Saved Model
-loaded_model = pickle.load(open("C:/Users/Lenovo/OneDrive/Desktop/Diabites ML Project/training model.sav", "rb"))
+# Load trained model (use relative path)
+loaded_model = pickle.load(open("C:\\Users\\Lenovo\\OneDrive\\Desktop\\Diabites ML Project\\training model.sav", "rb"))
 
-# Creating a function for prediction
-
+# Prediction function
 def diabetes_prediction(input_data):
-    
-     # changing the array as we are predicting for one instance
-    input_data_as_numpy_array = np.asarray(input_data)
+    input_data = np.asarray(input_data)
+    input_data = input_data.reshape(1, -1)
 
-    # Reshape the array as we are predicting for one instance 
-    input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
+    prediction = loaded_model.predict(input_data)
 
-    prediction = loaded_model.predict(input_data_reshaped)
-    print(prediction)
-
-
-    if (prediction[0] == 0):
-        print("The Person is Not Diabetic")
+    if prediction[0] == 0:
+        return "✅ The Person is Not Diabetic"
     else:
-        print("The person is Diabetic")
-        
+        return "⚠️ The Person is Diabetic"
+
+# Main function
 def main():
-    
-    #giving a title
-    st.title("Diabetes Prediction Web Apps")
-    
-    # Getting The input data from the user
-    
-    Pregnancies = st.text_input("Number of Pregnancies")
-    Glucose = st.text_input("Glucose Level")
-    BloodPressure = st.text_input("Blood Pressure value")
-    SkinThickness = st.text_input("Skin Thickness Value")
-    Insulin = st.text_input("Insulin Level")
-    BMI = st.text_input("BMI Value")
-    DiabetesPedigreeFuntion = st.text_input("Diabetes Pedigree Funtion")
-    Age = st.text_input("Age of the Person")
-    
-    # code for prediction
-    diagnosis = " "
-    
-    # Creating a button for prediction
-    
-    if st.button("Diabetes Test Result"):
-        diagnosis = diabetes_prediction([Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFuntion, Age])
-        
-    st.success(diagnosis)
-    
+
+    # Title
+    st.title("🩺 Diabetes Prediction Web App")
+
+    st.write("Enter the patient's medical details below:")
+
+    # Input fields (number_input = BEST practice)
+    Pregnancies = st.number_input("Number of Pregnancies", min_value=0, step=1)
+    Glucose = st.number_input("Glucose Level", min_value=0.0)
+    BloodPressure = st.number_input("Blood Pressure", min_value=0.0)
+    SkinThickness = st.number_input("Skin Thickness", min_value=0.0)
+    Insulin = st.number_input("Insulin Level", min_value=0.0)
+    BMI = st.number_input("BMI", min_value=0.0)
+    DiabetesPedigreeFunction = st.number_input("Diabetes Pedigree Function", min_value=0.0)
+    Age = st.number_input("Age", min_value=0, step=1)
+
+    diagnosis = ""
+
+    # Button
+    if st.button("🔍 Diabetes Test Result"):
+
+        input_data = [
+            Pregnancies,
+            Glucose,
+            BloodPressure,
+            SkinThickness,
+            Insulin,
+            BMI,
+            DiabetesPedigreeFunction,
+            Age
+        ]
+
+        diagnosis = diabetes_prediction(input_data)
+
+    # Show result
+    if diagnosis:
+        st.success(diagnosis)
+
+# Run app
 if __name__ == '__main__':
-     main()
+    main()
