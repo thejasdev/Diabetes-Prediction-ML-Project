@@ -129,16 +129,25 @@ streamlit run frontend.py
 ## 📁 Project Structure
 
 ```
-Diabites_ML_Project/
+Diabetes-Prediction-ML-Project/
 │
-├── frontend.py          # Streamlit web application
-├── training model.sav   # Trained ML model
-├── diabetes.csv         # Dataset
-├── ml.ipynb             # Model training notebook
-├── requirements.txt     # Dependencies
-└── README.md            # Project documentation
-```
+├── app/
+│   └── frontend.py              # Streamlit app
+│
+├── model/
+│   └── training_model.sav       # Trained ML model
+│
+├── data/
+│   └── diabetes.csv             # Dataset
+│
+├── notebooks/
+│   └── ml.ipynb                 # Training notebook
+│
+├── requirements.txt
+├── README.md
+└── .gitignore
 
+ ```
 ---
 
 ## 📈 Expected Output
