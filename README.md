@@ -147,6 +147,7 @@ Diabetes-Prediction-ML-Project/
 ├── README.md
 └── .gitignore
 
+ ```
 ---
 
 ## 📈 Expected Output
